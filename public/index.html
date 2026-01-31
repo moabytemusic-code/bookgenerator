@@ -27,7 +27,43 @@
         header {
             text-align: center;
             color: white;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         h1 {
@@ -214,104 +250,148 @@
     <div class="container">
         <header>
             <h1>📚 Amazon KDP Book Generator</h1>
-            <p class="subtitle">Generate complete book packages in seconds</p>
+            <p class="subtitle">Research keywords & generate complete book packages</p>
         </header>
 
-        <div class="card">
-            <form id="bookForm">
-                <div class="form-group">
-                    <label for="keyword">Book Keyword/Topic *</label>
-                    <input type="text" id="keyword" required
-                        placeholder="e.g., side hustle ideas, real estate investing">
-                    <small style="color: #666;">This will be the main focus of your book</small>
-                </div>
-
-                <div class="form-group">
-                    <label for="toolName">Your Tool Name *</label>
-                    <input type="text" id="toolName" value="Micro-Niche Finder" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="toolUrl">Your Tool URL *</label>
-                    <input type="text" id="toolUrl" value="smarthustlermarketing.com/niche-finder" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="authorName">Author Name *</label>
-                    <input type="text" id="authorName" value="Ken Thompson" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="price">Book Price (USD) *</label>
-                    <select id="price" required>
-                        <option value="2.99">$2.99 (Recommended)</option>
-                        <option value="4.99">$4.99</option>
-                        <option value="7.99">$7.99</option>
-                        <option value="9.99">$9.99</option>
-                    </select>
-                </div>
-
-                <button type="submit">Generate Book Package</button>
-            </form>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('validator')">🔍 Keyword Validator</button>
+            <button class="tab" onclick="switchTab('generator')">📚 Book Generator</button>
         </div>
 
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Generating your complete book package...</p>
-        </div>
-
-        <div class="results" id="results">
+        <!-- Keyword Validator Tab -->
+        <div id="validator" class="tab-content active">
             <div class="card">
-                <h2 style="margin-bottom: 1.5rem;">✅ Your Book Package is Ready!</h2>
+                <h2 style="margin-bottom: 1.5rem;">🔍 Keyword Validator</h2>
+                <p style="margin-bottom: 1.5rem; color: #666;">Validate keywords before generating books. Check search
+                    volume and competition.</p>
 
-                <div class="download-section">
-                    <h3>📥 Downloads</h3>
-                    <button class="download-btn" onclick="downloadPrompt()">Download EbookWriter.ai Prompt</button>
-                    <button class="download-btn" onclick="downloadMetadata()">Download KDP Metadata</button>
-                    <button class="download-btn" onclick="downloadComplete()">Download Complete Package (JSON)</button>
+                <form id="validatorForm">
+                    <div class="form-group">
+                        <label for="keywords">Keywords to Validate (one per line) *</label>
+                        <textarea id="keywords" required
+                            placeholder="side hustle ideas&#10;passive income&#10;real estate investing&#10;weight loss tips"></textarea>
+                        <small style="color: #666;">Enter up to 10 keywords</small>
+                    </div>
+
+                    <button type="submit">Validate Keywords</button>
+                </form>
+            </div>
+
+            <div class="loading" id="validatorLoading">
+                <div class="spinner"></div>
+                <p>Validating keywords...</p>
+            </div>
+
+            <div class="results" id="validatorResults">
+                <div class="card">
+                    <h2 style="margin-bottom: 1.5rem;">✅ Validation Results</h2>
+                    <div id="validationData"></div>
+                    <button onclick="closeValidatorResults()" style="background: #6366f1; margin-top: 1rem;">Validate
+                        More Keywords</button>
                 </div>
+            </div>
+        </div>
 
-                <div class="metadata-box">
-                    <h3>📖 Book Details</h3>
-                    <p><strong>Title:</strong> <span id="bookTitle"></span></p>
-                    <p><strong>Subtitle:</strong> <span id="bookSubtitle"></span></p>
-                    <p><strong>Author:</strong> <span id="bookAuthor"></span></p>
-                    <p><strong>Price:</strong> $<span id="bookPrice"></span></p>
+        <!-- Book Generator Tab -->
+        <div id="generator" class="tab-content">
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem;">📚 Generate Book Package</h2>
+                <form id="bookForm">
+                    <div class="form-group">
+                        <label for="keyword">Book Keyword/Topic *</label>
+                        <input type="text" id="keyword" required
+                            placeholder="e.g., side hustle ideas, real estate investing">
+                        <small style="color: #666;">This will be the main focus of your book</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="toolName">Your Tool Name *</label>
+                        <input type="text" id="toolName" value="Micro-Niche Finder" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="toolUrl">Your Tool URL *</label>
+                        <input type="text" id="toolUrl" value="smarthustlermarketing.com/niche-finder" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="authorName">Author Name *</label>
+                        <input type="text" id="authorName" value="Ken Thompson" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Book Price (USD) *</label>
+                        <select id="price" required>
+                            <option value="2.99">$2.99 (Recommended)</option>
+                            <option value="4.99">$4.99</option>
+                            <option value="7.99">$7.99</option>
+                            <option value="9.99">$9.99</option>
+                        </select>
+                    </div>
+
+                    <button type="submit">Generate Book Package</button>
+                </form>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Generating your complete book package...</p>
+            </div>
+
+            <div class="results" id="results">
+                <div class="card">
+                    <h2 style="margin-bottom: 1.5rem;">✅ Your Book Package is Ready!</h2>
+
+                    <div class="download-section">
+                        <h3>📥 Downloads</h3>
+                        <button class="download-btn" onclick="downloadPrompt()">Download EbookWriter.ai Prompt</button>
+                        <button class="download-btn" onclick="downloadMetadata()">Download KDP Metadata</button>
+                        <button class="download-btn" onclick="downloadComplete()">Download Complete Package
+                            (JSON)</button>
+                    </div>
+
+                    <div class="metadata-box">
+                        <h3>📖 Book Details</h3>
+                        <p><strong>Title:</strong> <span id="bookTitle"></span></p>
+                        <p><strong>Subtitle:</strong> <span id="bookSubtitle"></span></p>
+                        <p><strong>Author:</strong> <span id="bookAuthor"></span></p>
+                        <p><strong>Price:</strong> $<span id="bookPrice"></span></p>
+                    </div>
+
+                    <div class="metadata-box">
+                        <h3>🏷️ KDP Keywords</h3>
+                        <div class="keyword-list" id="keywordList"></div>
+                    </div>
+
+                    <div class="metadata-box">
+                        <h3>📂 Categories</h3>
+                        <div id="categoryList"></div>
+                    </div>
+
+                    <div class="metadata-box">
+                        <h3>📝 Book Description</h3>
+                        <p id="bookDescription" style="white-space: pre-wrap;"></p>
+                        <button class="copy-btn" onclick="copyDescription()">Copy Description</button>
+                    </div>
+
+                    <div class="metadata-box">
+                        <h3>✍️ EbookWriter.ai Prompt</h3>
+                        <p>Copy this entire prompt and paste it into App.Ebookwriter.ai:</p>
+                        <pre id="ebookPrompt"></pre>
+                        <button class="copy-btn" onclick="copyPrompt()">Copy Prompt</button>
+                    </div>
+
+                    <div class="metadata-box">
+                        <h3>🎨 Cover Specifications</h3>
+                        <p><strong>Trim Size:</strong> 6 x 9 inches</p>
+                        <p><strong>Style:</strong> Modern, professional, trustworthy</p>
+                        <p><strong>Colors:</strong> Purple/blue gradient (matches Signal Engines brand)</p>
+                        <p><strong>Recommended Tool:</strong> Canva (search "Book Cover 6x9")</p>
+                    </div>
+
+                    <button onclick="generateAnother()" style="background: #6366f1; margin-top: 1rem;">Generate Another
+                        Book</button>
                 </div>
-
-                <div class="metadata-box">
-                    <h3>🏷️ KDP Keywords</h3>
-                    <div class="keyword-list" id="keywordList"></div>
-                </div>
-
-                <div class="metadata-box">
-                    <h3>📂 Categories</h3>
-                    <div id="categoryList"></div>
-                </div>
-
-                <div class="metadata-box">
-                    <h3>📝 Book Description</h3>
-                    <p id="bookDescription" style="white-space: pre-wrap;"></p>
-                    <button class="copy-btn" onclick="copyDescription()">Copy Description</button>
-                </div>
-
-                <div class="metadata-box">
-                    <h3>✍️ EbookWriter.ai Prompt</h3>
-                    <p>Copy this entire prompt and paste it into App.Ebookwriter.ai:</p>
-                    <pre id="ebookPrompt"></pre>
-                    <button class="copy-btn" onclick="copyPrompt()">Copy Prompt</button>
-                </div>
-
-                <div class="metadata-box">
-                    <h3>🎨 Cover Specifications</h3>
-                    <p><strong>Trim Size:</strong> 6 x 9 inches</p>
-                    <p><strong>Style:</strong> Modern, professional, trustworthy</p>
-                    <p><strong>Colors:</strong> Purple/blue gradient (matches Signal Engines brand)</p>
-                    <p><strong>Recommended Tool:</strong> Canva (search "Book Cover 6x9")</p>
-                </div>
-
-                <button onclick="generateAnother()" style="background: #6366f1; margin-top: 1rem;">Generate Another
-                    Book</button>
             </div>
         </div>
     </div>
@@ -430,6 +510,101 @@
             document.getElementById('results').classList.remove('show');
             document.querySelector('.card').style.display = 'block';
             document.getElementById('bookForm').reset();
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Keyword Validator
+        document.getElementById('validatorForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const keywords = document.getElementById('keywords').value.split('\n').filter(k => k.trim());
+
+            if (keywords.length > 10) {
+                alert('Please enter maximum 10 keywords');
+                return;
+            }
+
+            // Show loading
+            document.querySelector('#validator .card').style.display = 'none';
+            document.getElementById('validatorLoading').style.display = 'block';
+
+            try {
+                const response = await fetch('/api/validate-keywords.js', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ keywords })
+                });
+
+                const data = await response.json();
+
+                // Hide loading, show results
+                document.getElementById('validatorLoading').style.display = 'none';
+                document.getElementById('validatorResults').classList.add('show');
+
+                // Display results
+                displayValidationResults(data);
+
+            } catch (error) {
+                alert('Error validating keywords. Please try again.');
+                document.getElementById('validatorLoading').style.display = 'none';
+                document.querySelector('#validator .card').style.display = 'block';
+            }
+        });
+
+        function displayValidationResults(data) {
+            const container = document.getElementById('validationData');
+            container.innerHTML = '';
+
+            data.results.forEach((result, index) => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'metadata-box';
+                resultDiv.style.marginBottom = '1rem';
+
+                const emoji = result.score >= 70 ? '🟢' : result.score >= 50 ? '🟡' : '🔴';
+                const recommendation = result.score >= 70 ? 'HIGH OPPORTUNITY' : result.score >= 50 ? 'MEDIUM OPPORTUNITY' : 'LOW OPPORTUNITY';
+
+                resultDiv.innerHTML = `
+                    <h3>${emoji} ${result.keyword}</h3>
+                    <p><strong>Score:</strong> ${result.score}/100</p>
+                    <p><strong>Recommendation:</strong> ${recommendation}</p>
+                    <p><strong>Autocomplete Suggestions:</strong> ${result.suggestions || 0}</p>
+                    <p><strong>Competition:</strong> ${result.competition || 'Unknown'}</p>
+                    ${result.score >= 60 ? `<button onclick="useKeyword('${result.keyword}')" style="background: #10b981; padding: 0.5rem 1rem; margin-top: 0.5rem;">Use This Keyword →</button>` : ''}
+                `;
+
+                container.appendChild(resultDiv);
+            });
+        }
+
+        function useKeyword(keyword) {
+            // Switch to generator tab
+            switchTab('generator');
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            document.querySelectorAll('.tab')[0].classList.remove('active');
+
+            // Fill in the keyword
+            document.getElementById('keyword').value = keyword;
+            document.getElementById('keyword').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function closeValidatorResults() {
+            document.getElementById('validatorResults').classList.remove('show');
+            document.querySelector('#validator .card').style.display = 'block';
+            document.getElementById('validatorForm').reset();
         }
     </script>
 </body>
