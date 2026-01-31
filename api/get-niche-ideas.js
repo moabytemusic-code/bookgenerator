@@ -101,6 +101,81 @@ module.exports = async function handler(req, res) {
             ]
         },
         {
+            category: "⚡ Fresh Gold Mine (Auto-Mined)",
+            items: [
+                {
+                    keyword: "Workbook for complex ptsd recovery",
+                    description: "Auto-Mined Score: 95/100. High pain point + 'Workbook' money word.",
+                    product_idea: "CPTSD Recovery Exercises PDF",
+                    sourcing: "Research therapy exercises (grounding, safety planning). Compile into workbook format.",
+                    difficulty: "High"
+                },
+                {
+                    keyword: "Cookbook for fatty liver disease",
+                    description: "Auto-Mined Score: 92/100. Specific medical diet + 'Cookbook'.",
+                    product_idea: "28-Day Liver Detox Meal Plan",
+                    sourcing: "Generate liver-friendly recipes (no alcohol, low sugar). Focus on cruciferous veggies.",
+                    difficulty: "Low"
+                },
+                {
+                    keyword: "Planner for adhd adults 2026",
+                    description: "Auto-Mined Score: 90/100. Specific audience + Year specific.",
+                    product_idea: "Dopamine Menu & Weekly Planner",
+                    sourcing: "Create colorful, low-clutter layouts. Gamify the tasks.",
+                    difficulty: "Low"
+                },
+                {
+                    keyword: "Guide for starting a nonprofit 501c3",
+                    description: "Auto-Mined Score: 88/100. Specific legal outcome.",
+                    product_idea: "Nonprofit Bylaws Template Kit",
+                    sourcing: "Provide templates for bylaws, conflict of interest policy, and 1023 application guide.",
+                    difficulty: "High"
+                },
+                {
+                    keyword: "Log book for blood sugar monitoring",
+                    description: "Auto-Mined Score: 85/100. Daily use product (consumable).",
+                    product_idea: "Simple Data Log Book (Physical)",
+                    sourcing: "Create a simple grid layout (Time, Glucose, Insulin, Notes). Duplicate for 100 pages.",
+                    difficulty: "Very Low"
+                },
+                {
+                    keyword: "Workbook for dysgraphia for kids",
+                    description: "Auto-Mined Score: 95/100. Underserved learning disability niche.",
+                    product_idea: "Handwriting Mechanics Worksheets",
+                    sourcing: "Create large-format tracing exercises and motor skill games.",
+                    difficulty: "Medium"
+                },
+                {
+                    keyword: "Cookbook for gastritis healing",
+                    description: "Auto-Mined Score: 91/100. High urgency (pain relief).",
+                    product_idea: "Gastritis Soothing Recipe Pack",
+                    sourcing: "Focus on low-acid, soft foods. Avoid common triggers.",
+                    difficulty: "Low"
+                },
+                {
+                    keyword: "Journal for new dads",
+                    description: "Auto-Mined Score: 87/100. Giftable market.",
+                    product_idea: "First Year Fatherhood prompts",
+                    sourcing: "Prompts like 'First time I held you', 'My hopes for you'.",
+                    difficulty: "Low"
+                },
+                {
+                    keyword: "Exam prep for pharmacy technician",
+                    description: "Auto-Mined Score: 98/100. Career certification.",
+                    product_idea: "PTCB Practice Test Bank",
+                    sourcing: "Find previous exam questions. Create practice quizzes.",
+                    difficulty: "High"
+                },
+                {
+                    keyword: "Activity book for seniors with dementia",
+                    description: "Auto-Mined Score: 93/100. Caregiver driven purchase.",
+                    product_idea: "Large Print Puzzle & Memory Game Pack",
+                    sourcing: "Very simple word searches, spot the difference, and nostalgic photo recognition.",
+                    difficulty: "Medium"
+                }
+            ]
+        },
+        {
             category: "🌿 Specific Hobbies",
             items: [
                 {
