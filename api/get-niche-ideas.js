@@ -7,8 +7,8 @@ module.exports = async function handler(req, res) {
                 {
                     keyword: "Grant writing for nonprofits",
                     description: "High-value skill. People buy books to secure millions in funding.",
-                    product_idea: "Grant Proposal Template Pack ($97)",
-                    sourcing: "Create 5 standard templates (Cover letter, Needs statement, Budget). Sell on Gumroad.",
+                    product_idea: "BOOK: Grant Writing Guide ($12.99) → UPSELL: Grant Proposal Template Pack ($97)",
+                    sourcing: "Book teaches strategy. Templates save 20+ hours. Include Gumroad link in book appendix.",
                     difficulty: "Medium"
                 },
                 {
@@ -40,8 +40,8 @@ module.exports = async function handler(req, res) {
                 {
                     keyword: "Diabetic air fryer cookbook",
                     description: "Specific Device + Specific Condition = Gold Mine.",
-                    product_idea: "Printable Meal Plan & Grocery List",
-                    sourcing: "Use ChatGPT to generate 30 days of diabetic-friendly air fryer recipes.",
+                    product_idea: "BOOK: Diabetic Air Fryer Cookbook ($9.99) → UPSELL: 28-Day Meal Plan + Grocery Lists ($27)",
+                    sourcing: "Book has 50 recipes. Upsell is a done-for-you meal plan. Generate with ChatGPT, sell on Gumroad.",
                     difficulty: "Low"
                 },
                 {
@@ -73,8 +73,8 @@ module.exports = async function handler(req, res) {
                 {
                     keyword: "Shadow work journal with prompts",
                     description: "Interactive books outperform reading books 10-to-1.",
-                    product_idea: "Digital Shadow Work Journal (iPad/Goodnotes)",
-                    sourcing: "Create hyperlinked PDF in Canva for Goodnotes users.",
+                    product_idea: "BOOK: Shadow Work Journal ($8.99) → UPSELL: Digital Goodnotes Version ($19)",
+                    sourcing: "Physical book for Amazon. Digital hyperlinked PDF for iPad users. Sell digital on Etsy/Gumroad.",
                     difficulty: "Low"
                 },
                 {
@@ -127,8 +127,8 @@ module.exports = async function handler(req, res) {
                 {
                     keyword: "Guide for starting a nonprofit 501c3",
                     description: "Auto-Mined Score: 88/100. Specific legal outcome.",
-                    product_idea: "Nonprofit Bylaws Template Kit",
-                    sourcing: "Provide templates for bylaws, conflict of interest policy, and 1023 application guide.",
+                    product_idea: "BOOK: 'How to Start a 501c3' Guide ($14.99) → UPSELL: Nonprofit Bylaws Template Kit ($97)",
+                    sourcing: "Book teaches the process. Templates let them execute instantly. Sell templates on Gumroad with book link in back matter.",
                     difficulty: "High"
                 },
                 {
