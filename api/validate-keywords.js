@@ -83,32 +83,47 @@ async function validateSingleKeyword(keyword) {
         score = googleScore + amazonScore;
 
         // Estimate competition based on keyword length
+        // REVISED LOGIC: Long tail on Amazon usually means BETTER conversion, not just low volume.
         const wordCount = keyword.split(' ').length;
+
         if (wordCount >= 4) {
             competition = 'LOW';
+            score += 10; // Bonus for being specific/long-tail
         } else if (wordCount === 3) {
             competition = 'MEDIUM';
+            score += 5;
         } else {
             competition = 'HIGH';
         }
 
         // Bonus points for high-intent patterns
-        if (keyword.includes('how to')) score += 5;
-        if (keyword.includes('for beginners')) score += 5;
-        if (keyword.includes('guide')) score += 3;
-        if (keyword.match(/\d{4}/)) score += 2; // Year-specific
+        // These are distinct "Money Words"
+        const moneyWords = ['workbook', 'cookbook', 'journal', 'planner', 'guide', 'log book', 'diary', 'exam', 'prep', 'certification'];
+        const lowerKeyword = keyword.toLowerCase();
+
+        if (moneyWords.some(w => lowerKeyword.includes(w))) {
+            score += 15; // Major bonus for product-type words
+            buyerIntent = 'HIGH'; // These are physical products people buy
+        }
+
+        if (lowerKeyword.includes('how to')) score += 5;
+        if (lowerKeyword.includes('for beginners')) score += 5;
+        if (keyword.match(/\d{4}/)) score += 5; // Year-specific (e.g. 2026)
 
     } catch (error) {
         console.error(`Error validating ${keyword}:`, error);
         score = 30; // Default score on error
     }
 
+    // Cap score at 100
+    score = Math.min(Math.round(score), 100);
+
     return {
         keyword,
-        score: Math.min(Math.round(score), 100),
+        score,
         googleSuggestions,
         amazonSuggestions,
-        topAmazonSuggestions, // Use the safe variable
+        topAmazonSuggestions,
         buyerIntent,
         competition,
         timestamp: new Date().toISOString()
