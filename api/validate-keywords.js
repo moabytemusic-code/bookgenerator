@@ -105,6 +105,7 @@ async function validateSingleKeyword(keyword) {
         score: Math.min(Math.round(score), 100),
         googleSuggestions,
         amazonSuggestions,
+        topAmazonSuggestions: amazonData.suggestions, // Return the actual long-tail keywords
         buyerIntent,
         competition,
         timestamp: new Date().toISOString()

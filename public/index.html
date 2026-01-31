@@ -587,8 +587,24 @@
                     <p><strong>📊 Google Suggestions:</strong> ${result.googleSuggestions || 0}</p>
                     <p><strong>🛒 Amazon Suggestions:</strong> ${result.amazonSuggestions || 0}</p>
                     <p><strong>${buyerEmoji} Buyer Intent:</strong> ${result.buyerIntent || 'Unknown'}</p>
-                    <p><strong>🎯 Competition:</strong> ${result.competition || 'Unknown'}</p>
-                    ${result.score >= 60 ? `<button onclick="useKeyword('${result.keyword}')" style="background: #10b981; padding: 0.5rem 1rem; margin-top: 0.5rem;">Use This Keyword →</button>` : ''}
+                    
+                    ${result.topAmazonSuggestions && result.topAmazonSuggestions.length > 0 ? `
+                        <div style="margin-top: 0.5rem;">
+                            <p><strong>💡 Found Hidden Niches (Click to Use):</strong></p>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem;">
+                                ${result.topAmazonSuggestions.map(s => `
+                                    <span onclick="useKeyword('${s}')" 
+                                          style="background: #eef2ff; color: #667eea; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; cursor: pointer; border: 1px solid #c7d2fe;">
+                                        ${s}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div style="margin-top: 1rem;">
+                        ${result.score >= 60 ? `<button onclick="useKeyword('${result.keyword}')" style="background: #10b981; padding: 0.5rem 1rem; border-radius: 6px; border: none; color: white; cursor: pointer;">Use "${result.keyword}" →</button>` : ''}
+                    </div>
                 `;
 
                 container.appendChild(resultDiv);
