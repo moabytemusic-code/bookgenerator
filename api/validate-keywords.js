@@ -18,6 +18,7 @@ module.exports = async function handler(req, res) {
         const results = await validateKeywords(keywords);
         return res.status(200).json({ results });
     } catch (error) {
+        console.error('Validation Error:', error);
         return res.status(500).json({ error: 'Error validating keywords', details: error.message });
     }
 };
@@ -117,8 +118,13 @@ async function checkGoogleAutocomplete(keyword) {
         const url = `http://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(keyword)}`;
 
         const response = await fetch(url);
-        const data = await response.json();
 
+        if (!response.ok) {
+            console.error(`Google API Error: ${response.status}`);
+            return { count: 0, suggestions: [] };
+        }
+
+        const data = await response.json();
         const suggestions = data[1] || [];
 
         return {
@@ -126,7 +132,7 @@ async function checkGoogleAutocomplete(keyword) {
             suggestions: suggestions.slice(0, 5)
         };
     } catch (error) {
-        console.error('Google autocomplete error:', error);
+        console.error('Google autocomplete error:', error.message);
         return { count: 0, suggestions: [] };
     }
 }
@@ -143,6 +149,11 @@ async function checkAmazonAutocomplete(keyword) {
             }
         });
 
+        if (!response.ok) {
+            console.error(`Amazon API Error: ${response.status}`);
+            return { count: 0, suggestions: [] };
+        }
+
         const data = await response.json();
 
         // Amazon returns suggestions in a different format
@@ -153,7 +164,7 @@ async function checkAmazonAutocomplete(keyword) {
             suggestions: suggestions.slice(0, 5).map(s => s.value || s)
         };
     } catch (error) {
-        console.error('Amazon autocomplete error:', error);
+        console.error('Amazon autocomplete error:', error.message);
         // Fallback: return 0 if Amazon fails
         return { count: 0, suggestions: [] };
     }
