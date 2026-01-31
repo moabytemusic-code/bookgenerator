@@ -60,7 +60,14 @@ async function validateSingleKeyword(keyword) {
         }
 
         // Check Amazon Autocomplete (60% weight - BUYER INTENT!)
-        const amazonData = await checkAmazonAutocomplete(keyword);
+        // Retry logic: If it returns 0, try one more time after a short delay
+        let amazonData = await checkAmazonAutocomplete(keyword);
+        if (amazonData.count === 0) {
+            // Wait 500ms and try again
+            await new Promise(resolve => setTimeout(resolve, 500));
+            amazonData = await checkAmazonAutocomplete(keyword);
+        }
+
         amazonSuggestions = amazonData.count;
         topAmazonSuggestions = amazonData.suggestions; // Store suggestions safely
 
@@ -101,7 +108,9 @@ async function validateSingleKeyword(keyword) {
         const moneyWords = ['workbook', 'cookbook', 'journal', 'planner', 'guide', 'log book', 'diary', 'exam', 'prep', 'certification'];
         const lowerKeyword = keyword.toLowerCase();
 
-        if (moneyWords.some(w => lowerKeyword.includes(w))) {
+        const hasMoneyWord = moneyWords.some(w => lowerKeyword.includes(w));
+
+        if (hasMoneyWord) {
             score += 15; // Major bonus for product-type words
             buyerIntent = 'HIGH'; // These are physical products people buy
         }
@@ -109,6 +118,15 @@ async function validateSingleKeyword(keyword) {
         if (lowerKeyword.includes('how to')) score += 5;
         if (lowerKeyword.includes('for beginners')) score += 5;
         if (keyword.match(/\d{4}/)) score += 5; // Year-specific (e.g. 2026)
+
+        // SAFETY NET: If API failed (0 amazon suggestions) BUT it has a Money Word + Long Tail,
+        // it is almost certainly a good keyword. Don't let it fail.
+        if (amazonSuggestions === 0 && hasMoneyWord && wordCount >= 3) {
+            if (score < 75) {
+                score = 75; // Force a passing grade
+                competition = 'API LIMITED (ESTIMATED PASS)';
+            }
+        }
 
     } catch (error) {
         console.error(`Error validating ${keyword}:`, error);
