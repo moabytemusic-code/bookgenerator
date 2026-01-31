@@ -254,12 +254,60 @@
         </header>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('validator')">🔍 Keyword Validator</button>
-            <button class="tab" onclick="switchTab('generator')">📚 Book Generator</button>
+            <button class="tab" onclick="switchTab('validator')">🔍 Validator</button>
+            <button class="tab active" onclick="switchTab('vault')">💎 Niche Vault</button>
+            <button class="tab" onclick="switchTab('generator')">📚 Generator</button>
+        </div>
+
+        <!-- Niche Vault Tab -->
+        <div id="vault" class="tab-content active">
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem;">💎 Profitable Niche Vault</h2>
+                <p style="margin-bottom: 1.5rem; color: #666;">Curated list of high-profit niches with app/product ideas
+                    and sourcing info.</p>
+
+                <div class="form-group">
+                    <label for="nicheCategory">Select a Category</label>
+                    <select id="nicheCategory" onchange="loadNiches()">
+                        <option value="">-- Choose a Category --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="nicheSelect">Select a Niche</label>
+                    <select id="nicheSelect" disabled onchange="displayNicheDetails()">
+                        <option value="">-- Select Category First --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="nicheDetails" class="results" style="display: none;">
+                <div class="card">
+                    <h2 id="vaultTitle" style="margin-bottom: 0.5rem;"></h2>
+                    <p id="vaultDesc" style="color: #666; margin-bottom: 1.5rem;"></p>
+
+                    <div class="metadata-box" style="background: #f0fdf4; border-color: #bbf7d0;">
+                        <h3>💡 App/Product Idea</h3>
+                        <p id="vaultProduct" style="font-weight: 500; color: #166534;"></p>
+                    </div>
+
+                    <div class="metadata-box" style="background: #fff beb; border-color: #fce7f3;">
+                        <h3>📦 Sourcing Strategy</h3>
+                        <p id="vaultSource"></p>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                        <button onclick="validateFromVault()" style="background: #f59e0b; flex: 1;">🔍 Validate
+                            Keyword</button>
+                        <button onclick="generateFromVault()" style="background: #10b981; flex: 1;">📚 Generate
+                            Book</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Keyword Validator Tab -->
-        <div id="validator" class="tab-content active">
+        <div id="validator" class="tab-content">
             <div class="card">
                 <h2 style="margin-bottom: 1.5rem;">🔍 Keyword Validator</h2>
                 <p style="margin-bottom: 1.5rem; color: #666;">Validate keywords before generating books. Check search
@@ -636,6 +684,85 @@
             document.getElementById('validatorResults').classList.remove('show');
             document.querySelector('#validator .card').style.display = 'block';
             document.getElementById('validatorForm').reset();
+        }
+
+        // --- Niche Vault Logic ---
+        let vaultData = [];
+        let selectedNiche = null;
+
+        // Load data on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/api/get-niche-ideas.js');
+                if (response.ok) {
+                    vaultData = await response.json();
+                    populateCategories();
+                }
+            } catch (error) {
+                console.error('Error loading vault data:', error);
+            }
+        });
+
+        function populateCategories() {
+            const select = document.getElementById('nicheCategory');
+            vaultData.forEach((cat, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = cat.category;
+                select.appendChild(option);
+            });
+        }
+
+        function loadNiches() {
+            const catIndex = document.getElementById('nicheCategory').value;
+            const nicheSelect = document.getElementById('nicheSelect');
+            const detailsDiv = document.getElementById('nicheDetails');
+
+            nicheSelect.innerHTML = '<option value="">-- Select a Niche --</option>';
+            nicheSelect.disabled = true;
+            detailsDiv.style.display = 'none';
+
+            if (catIndex === "") return;
+
+            const category = vaultData[catIndex];
+            category.items.forEach((item, index) => {
+                const option = document.createElement('option');
+                option.value = JSON.stringify(item);
+                option.textContent = item.keyword;
+                nicheSelect.appendChild(option);
+            });
+            nicheSelect.disabled = false;
+        }
+
+        function displayNicheDetails() {
+            const val = document.getElementById('nicheSelect').value;
+            const detailsDiv = document.getElementById('nicheDetails');
+
+            if (!val) {
+                detailsDiv.style.display = 'none';
+                return;
+            }
+
+            selectedNiche = JSON.parse(val);
+
+            document.getElementById('vaultTitle').textContent = selectedNiche.keyword;
+            document.getElementById('vaultDesc').textContent = selectedNiche.description;
+            document.getElementById('vaultProduct').textContent = selectedNiche.product_idea;
+            document.getElementById('vaultSource').textContent = selectedNiche.sourcing;
+
+            detailsDiv.style.display = 'block';
+        }
+
+        function validateFromVault() {
+            if (!selectedNiche) return;
+            switchTab('validator');
+            document.getElementById('keywords').value = selectedNiche.keyword;
+            document.querySelector('#validatorForm button[type="submit"]').click();
+        }
+
+        function generateFromVault() {
+            if (!selectedNiche) return;
+            useKeyword(selectedNiche.keyword); // Reuses existing function to switch to generator & fill
         }
     </script>
 </body>
