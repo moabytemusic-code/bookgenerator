@@ -549,6 +549,11 @@
                     body: JSON.stringify({ keywords })
                 });
 
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Server Error ${response.status}: ${errorText}`);
+                }
+
                 const data = await response.json();
 
                 // Hide loading, show results
@@ -559,7 +564,8 @@
                 displayValidationResults(data);
 
             } catch (error) {
-                alert('Error validating keywords. Please try again.');
+                console.error('Frontend Error:', error);
+                alert(`Error: ${error.message || 'Unknown error occurred'}. \n\nCheck the console (F12) for details.`);
                 document.getElementById('validatorLoading').style.display = 'none';
                 document.querySelector('#validator .card').style.display = 'block';
             }

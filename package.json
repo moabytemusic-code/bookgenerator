@@ -14,5 +14,8 @@
     "generator"
   ],
   "author": "Ken Thompson",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
 }
