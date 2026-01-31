@@ -577,12 +577,17 @@
                 const emoji = result.score >= 70 ? '🟢' : result.score >= 50 ? '🟡' : '🔴';
                 const recommendation = result.score >= 70 ? 'HIGH OPPORTUNITY' : result.score >= 50 ? 'MEDIUM OPPORTUNITY' : 'LOW OPPORTUNITY';
 
+                const buyerEmoji = result.buyerIntent === 'HIGH' ? '💰' : result.buyerIntent === 'MEDIUM' ? '💵' : result.buyerIntent === 'LOW' ? '💸' : '❌';
+
                 resultDiv.innerHTML = `
                     <h3>${emoji} ${result.keyword}</h3>
-                    <p><strong>Score:</strong> ${result.score}/100</p>
+                    <p><strong>Overall Score:</strong> ${result.score}/100</p>
                     <p><strong>Recommendation:</strong> ${recommendation}</p>
-                    <p><strong>Autocomplete Suggestions:</strong> ${result.suggestions || 0}</p>
-                    <p><strong>Competition:</strong> ${result.competition || 'Unknown'}</p>
+                    <hr style="margin: 0.75rem 0; border: none; border-top: 1px solid #e5e7eb;">
+                    <p><strong>📊 Google Suggestions:</strong> ${result.googleSuggestions || 0}</p>
+                    <p><strong>🛒 Amazon Suggestions:</strong> ${result.amazonSuggestions || 0}</p>
+                    <p><strong>${buyerEmoji} Buyer Intent:</strong> ${result.buyerIntent || 'Unknown'}</p>
+                    <p><strong>🎯 Competition:</strong> ${result.competition || 'Unknown'}</p>
                     ${result.score >= 60 ? `<button onclick="useKeyword('${result.keyword}')" style="background: #10b981; padding: 0.5rem 1rem; margin-top: 0.5rem;">Use This Keyword →</button>` : ''}
                 `;
 
