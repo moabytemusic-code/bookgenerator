@@ -2,113 +2,127 @@
 module.exports = async function handler(req, res) {
     const niches = [
         {
-            category: "💰 Wealth & Side Hustles",
+            category: "💰 Wealth & High-End Biz",
             items: [
                 {
-                    keyword: "Chair yoga for seniors",
-                    description: "Low-impact exercise for the aging population.",
-                    product_idea: "Subscription Video App for Seniors",
-                    sourcing: "Hire a yoga instructor on Upwork ($500) to film 10 videos. Host on Uscreen or Teachable.",
-                    difficulty: "Low"
-                },
-                {
-                    keyword: "Notary public loan signing agent",
-                    description: "High-demand service business certification.",
-                    product_idea: "State-Specific Certification Study Guide App",
-                    sourcing: "Source public domain state laws. Use AppGuyver or Bubble to build a simple quiz app.",
+                    keyword: "Grant writing for nonprofits",
+                    description: "High-value skill. People buy books to secure millions in funding.",
+                    product_idea: "Grant Proposal Template Pack ($97)",
+                    sourcing: "Create 5 standard templates (Cover letter, Needs statement, Budget). Sell on Gumroad.",
                     difficulty: "Medium"
                 },
                 {
-                    keyword: "Vending machine business",
-                    description: "Passive income through physical locations.",
-                    product_idea: "Location Finder Service / Lead Gen",
-                    sourcing: "Scrape local business data or use Google Maps API to find businesses without machines. Sell the leads.",
+                    keyword: "Quickbooks online for beginners",
+                    description: "Software guides are massive. Business owners NEED this.",
+                    product_idea: "Quickbooks Setup Video Course",
+                    sourcing: "Screen-record yourself setting up a dummy account. 1-hour tutorial.",
+                    difficulty: "Low"
+                },
+                {
+                    keyword: "LLC for beginners",
+                    description: "Legal confusion drives book sales. High pain point.",
+                    product_idea: "'Start Your LLC' Checklist & Filing Guide",
+                    sourcing: "Compile links to Secretary of State forms for all 50 states.",
                     difficulty: "Medium"
                 },
                 {
-                    keyword: "Airbnb arbitrage",
-                    description: "Renting properties to sublet on Airbnb.",
-                    product_idea: "Airbnb Profit Calculator / Chrome Extension",
-                    sourcing: "Developer on Fiverr ($300) to build extension that scrapes Zillow rents vs. AirDNA data.",
-                    difficulty: "High"
-                }
-            ]
-        },
-        {
-            category: "❤️ Health & Wellness",
-            items: [
-                {
-                    keyword: "Somatic exercises for trauma",
-                    description: "Mind-body connection exercises gaining viral traction.",
-                    product_idea: "Daily Somatic Release Audio Deck",
-                    sourcing: "Record audio tracks yourself or hire voice actor. Sell as digital bundle or mobile app.",
-                    difficulty: "Low"
-                },
-                {
-                    keyword: "Anti-inflammatory diet for beginners",
-                    description: "Dietary approach to reduce chronic pain.",
-                    product_idea: "Meal Planner & Grocery List App",
-                    sourcing: "Use Glide Apps (No-code) to turn a Google Sheet of recipes into an app.",
-                    difficulty: "Low"
-                },
-                {
-                    keyword: "Vagus nerve stimulation",
-                    description: "Nervous system regulation techniques.",
-                    product_idea: "Vagus Nerve Breathing Tool (Hardware/App)",
-                    sourcing: "AliBaba for simple breathing necklace (hardware) or App for timed breathing patterns.",
+                    keyword: "Notary signing agent certification study guide",
+                    description: "Exam prep is the #1 buyer intent category.",
+                    product_idea: "Notary Practice Exam App",
+                    sourcing: "Turn public practice questions into a simple quiz app/webpage.",
                     difficulty: "Medium"
                 }
             ]
         },
         {
-            category: "🧠 Self-Help & Skills",
+            category: "❤️ Diet & Special Health",
             items: [
                 {
-                    keyword: "Shadow work journal",
-                    description: "Deep psychological self-reflection prompts.",
-                    product_idea: "Interactive Digital Journal App",
-                    sourcing: "FlutterFlow or Adalo to build a journaling app with daily push notification prompts.",
-                    difficulty: "Medium"
+                    keyword: "Diabetic air fryer cookbook",
+                    description: "Specific Device + Specific Condition = Gold Mine.",
+                    product_idea: "Printable Meal Plan & Grocery List",
+                    sourcing: "Use ChatGPT to generate 30 days of diabetic-friendly air fryer recipes.",
+                    difficulty: "Low"
                 },
                 {
-                    keyword: "Credit repair secrets",
-                    description: "DIY credit improvement strategies.",
-                    product_idea: "Dispute Letter Generator SaaS",
-                    sourcing: "Simple web form that populates PDF templates. Build with Typeform + Webmerge or custom Python script.",
-                    difficulty: "Medium"
+                    keyword: "Wall pilates for seniors",
+                    description: "Huge trend. Niche audience (seniors) + specific method.",
+                    product_idea: "Wall Pilates Wall Chart (Physical Product)",
+                    sourcing: "Design a poster in Canva. Drop-ship via Printful.",
+                    difficulty: "Low"
                 },
                 {
-                    keyword: "Excel for beginners",
-                    description: "Corporate survival skill.",
-                    product_idea: "Excel Formula Generator / Plugin",
-                    sourcing: "Build a simple GPT wrapper that translates English to Excel formulas.",
+                    keyword: "Dr Sebi alkaline diet",
+                    description: "Cult-like following. Very high search volume.",
+                    product_idea: "Alkaline Herbs & Supplements Guide",
+                    sourcing: "Affiliate site reviewing Dr. Sebi approved supplements.",
+                    difficulty: "Low"
+                },
+                {
+                    keyword: "Gastric sleeve bariatric cookbook",
+                    description: "Post-surgery patients MUST follow strict diets.",
+                    product_idea: "Bariatric Portion Control Plate",
+                    sourcing: "Source portion plates from Alibaba, brand them 'Bariatric Success'.",
                     difficulty: "High"
                 }
             ]
         },
         {
-            category: "🌿 Hobbies & Survival",
+            category: "🧠 Workbooks & Therapy",
             items: [
                 {
-                    keyword: "Container gardening",
-                    description: "Growing food in small spaces/apartments.",
-                    product_idea: "Garden Planner Helper",
-                    sourcing: "Create a 'What to plant when' calendar generator based on zip code (USDA zones).",
+                    keyword: "Shadow work journal with prompts",
+                    description: "Interactive books outperform reading books 10-to-1.",
+                    product_idea: "Digital Shadow Work Journal (iPad/Goodnotes)",
+                    sourcing: "Create hyperlinked PDF in Canva for Goodnotes users.",
                     difficulty: "Low"
                 },
                 {
-                    keyword: "Backyard chickens",
-                    description: "Sustainable living and fresh eggs.",
-                    product_idea: "Smart Coop Monitor (IoT)",
-                    sourcing: "Source temperature sensors from AliBaba. Connect to Tuya Smart Life app (Whitelabel).",
+                    keyword: "CBT workbook for adults",
+                    description: "Cognitive Behavioral Therapy. Evergreen bestseller.",
+                    product_idea: "CBT Anxiety Tracker App",
+                    sourcing: "Simple logging app for 'Trigger -> Thought -> Reaction'.",
                     difficulty: "High"
                 },
                 {
-                    keyword: "Prepping for survival",
-                    description: "Disaster readiness.",
-                    product_idea: "Digital Bug Out Bag Checklist & Vault",
-                    sourcing: "PDF Bundle or Notion Template. Zero cost to source.",
+                    keyword: "ADHD organization hacks",
+                    description: "Desperate problem solvers.",
+                    product_idea: "ADHD Visual Planner (Printable)",
+                    sourcing: "Design high-contrast, simple daily planners. Sell on Etsy.",
                     difficulty: "Low"
+                },
+                {
+                    keyword: "Codependency recovery workbook",
+                    description: "Relationship pain points drive impulse buys.",
+                    product_idea: "Recovery Support Group community ($10/mo)",
+                    sourcing: "Private Skool or Facebook group.",
+                    difficulty: "Medium"
+                }
+            ]
+        },
+        {
+            category: "🌿 Specific Hobbies",
+            items: [
+                {
+                    keyword: "Raised bed gardening for beginners",
+                    description: "Specific method (Raised Bed) > Generic Gardening.",
+                    product_idea: "Garden Layout Planner Layouts",
+                    sourcing: "PDF blueprints for 4x4 and 4x8 beds.",
+                    difficulty: "Low"
+                },
+                {
+                    keyword: "Crochet patterns for beginners",
+                    description: "Pattern books are bought in bunches.",
+                    product_idea: "Video Stitch Guide Library",
+                    sourcing: "Curate best YouTube tutorials into an organized ad-free course.",
+                    difficulty: "Low"
+                },
+                {
+                    keyword: "Backyard homesteading",
+                    description: "Self-reliance trend is peaking.",
+                    product_idea: "Homestead Project Calculator (Coop cost, garden yield)",
+                    sourcing: "Simple web calculator.",
+                    difficulty: "Medium"
                 }
             ]
         }
