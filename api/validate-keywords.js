@@ -41,6 +41,7 @@ async function validateSingleKeyword(keyword) {
     let score = 0;
     let googleSuggestions = 0;
     let amazonSuggestions = 0;
+    let topAmazonSuggestions = []; // Initialize empty array
     let competition = 'Unknown';
     let buyerIntent = 'Unknown';
 
@@ -61,6 +62,7 @@ async function validateSingleKeyword(keyword) {
         // Check Amazon Autocomplete (60% weight - BUYER INTENT!)
         const amazonData = await checkAmazonAutocomplete(keyword);
         amazonSuggestions = amazonData.count;
+        topAmazonSuggestions = amazonData.suggestions; // Store suggestions safely
 
         let amazonScore = 0;
         if (amazonSuggestions >= 10) {
@@ -106,7 +108,7 @@ async function validateSingleKeyword(keyword) {
         score: Math.min(Math.round(score), 100),
         googleSuggestions,
         amazonSuggestions,
-        topAmazonSuggestions: amazonData.suggestions, // Return the actual long-tail keywords
+        topAmazonSuggestions, // Use the safe variable
         buyerIntent,
         competition,
         timestamp: new Date().toISOString()
