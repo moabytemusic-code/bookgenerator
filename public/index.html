@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon KDP Book Generator | Signal Engines</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .download-section {
+            background: #f5f5f5;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .download-btn {
+            background: #10b981;
+            margin-bottom: 0.5rem;
+        }
+
+        .download-btn:hover {
+            background: #059669;
+        }
+
+        .metadata-box {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .metadata-box h3 {
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+
+        .metadata-box p {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .keyword-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .copy-btn {
+            background: #f59e0b;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .copy-btn:hover {
+            background: #d97706;
+        }
+
+        pre {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Amazon KDP Book Generator</h1>
+            <p class="subtitle">Generate complete book packages in seconds</p>
+        </header>
+
+        <div class="card">
+            <form id="bookForm">
+                <div class="form-group">
+                    <label for="keyword">Book Keyword/Topic *</label>
+                    <input type="text" id="keyword" required
+                        placeholder="e.g., side hustle ideas, real estate investing">
+                    <small style="color: #666;">This will be the main focus of your book</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="toolName">Your Tool Name *</label>
+                    <input type="text" id="toolName" value="Micro-Niche Finder" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="toolUrl">Your Tool URL *</label>
+                    <input type="text" id="toolUrl" value="smarthustlermarketing.com/niche-finder" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="authorName">Author Name *</label>
+                    <input type="text" id="authorName" value="Ken Thompson" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Book Price (USD) *</label>
+                    <select id="price" required>
+                        <option value="2.99">$2.99 (Recommended)</option>
+                        <option value="4.99">$4.99</option>
+                        <option value="7.99">$7.99</option>
+                        <option value="9.99">$9.99</option>
+                    </select>
+                </div>
+
+                <button type="submit">Generate Book Package</button>
+            </form>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Generating your complete book package...</p>
+        </div>
+
+        <div class="results" id="results">
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem;">✅ Your Book Package is Ready!</h2>
+
+                <div class="download-section">
+                    <h3>📥 Downloads</h3>
+                    <button class="download-btn" onclick="downloadPrompt()">Download EbookWriter.ai Prompt</button>
+                    <button class="download-btn" onclick="downloadMetadata()">Download KDP Metadata</button>
+                    <button class="download-btn" onclick="downloadComplete()">Download Complete Package (JSON)</button>
+                </div>
+
+                <div class="metadata-box">
+                    <h3>📖 Book Details</h3>
+                    <p><strong>Title:</strong> <span id="bookTitle"></span></p>
+                    <p><strong>Subtitle:</strong> <span id="bookSubtitle"></span></p>
+                    <p><strong>Author:</strong> <span id="bookAuthor"></span></p>
+                    <p><strong>Price:</strong> $<span id="bookPrice"></span></p>
+                </div>
+
+                <div class="metadata-box">
+                    <h3>🏷️ KDP Keywords</h3>
+                    <div class="keyword-list" id="keywordList"></div>
+                </div>
+
+                <div class="metadata-box">
+                    <h3>📂 Categories</h3>
+                    <div id="categoryList"></div>
+                </div>
+
+                <div class="metadata-box">
+                    <h3>📝 Book Description</h3>
+                    <p id="bookDescription" style="white-space: pre-wrap;"></p>
+                    <button class="copy-btn" onclick="copyDescription()">Copy Description</button>
+                </div>
+
+                <div class="metadata-box">
+                    <h3>✍️ EbookWriter.ai Prompt</h3>
+                    <p>Copy this entire prompt and paste it into App.Ebookwriter.ai:</p>
+                    <pre id="ebookPrompt"></pre>
+                    <button class="copy-btn" onclick="copyPrompt()">Copy Prompt</button>
+                </div>
+
+                <div class="metadata-box">
+                    <h3>🎨 Cover Specifications</h3>
+                    <p><strong>Trim Size:</strong> 6 x 9 inches</p>
+                    <p><strong>Style:</strong> Modern, professional, trustworthy</p>
+                    <p><strong>Colors:</strong> Purple/blue gradient (matches Signal Engines brand)</p>
+                    <p><strong>Recommended Tool:</strong> Canva (search "Book Cover 6x9")</p>
+                </div>
+
+                <button onclick="generateAnother()" style="background: #6366f1; margin-top: 1rem;">Generate Another
+                    Book</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPackage = null;
+
+        document.getElementById('bookForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const keyword = document.getElementById('keyword').value;
+            const toolName = document.getElementById('toolName').value;
+            const toolUrl = document.getElementById('toolUrl').value;
+            const authorName = document.getElementById('authorName').value;
+            const price = document.getElementById('price').value;
+
+            // Show loading
+            document.querySelector('.card').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const response = await fetch('/api/generate-book', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ keyword, toolName, toolUrl, authorName, price })
+                });
+
+                const data = await response.json();
+                currentPackage = data;
+
+                // Hide loading, show results
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results').classList.add('show');
+
+                // Populate results
+                displayResults(data);
+
+            } catch (error) {
+                alert('Error generating book package. Please try again.');
+                document.getElementById('loading').style.display = 'none';
+                document.querySelector('.card').style.display = 'block';
+            }
+        });
+
+        function displayResults(data) {
+            document.getElementById('bookTitle').textContent = data.kdp_metadata.title;
+            document.getElementById('bookSubtitle').textContent = data.kdp_metadata.subtitle;
+            document.getElementById('bookAuthor').textContent = data.kdp_metadata.author;
+            document.getElementById('bookPrice').textContent = data.kdp_metadata.pricing.us;
+            document.getElementById('bookDescription').textContent = data.kdp_metadata.description;
+
+            // Keywords
+            const keywordList = document.getElementById('keywordList');
+            keywordList.innerHTML = '';
+            data.kdp_metadata.keywords.forEach(kw => {
+                const tag = document.createElement('span');
+                tag.className = 'keyword-tag';
+                tag.textContent = kw;
+                keywordList.appendChild(tag);
+            });
+
+            // Categories
+            const categoryList = document.getElementById('categoryList');
+            categoryList.innerHTML = '';
+            data.kdp_metadata.categories.forEach(cat => {
+                const p = document.createElement('p');
+                p.textContent = `• ${cat}`;
+                categoryList.appendChild(p);
+            });
+
+            // Prompt (truncated for display)
+            const promptPreview = data.ebookwriter_prompt.substring(0, 1000) + '\n\n... (Full prompt available for download)';
+            document.getElementById('ebookPrompt').textContent = promptPreview;
+        }
+
+        function downloadPrompt() {
+            const blob = new Blob([currentPackage.ebookwriter_prompt], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ebookwriter_prompt_${currentPackage.keyword.replace(/ /g, '_')}.txt`;
+            a.click();
+        }
+
+        function downloadMetadata() {
+            const metadata = JSON.stringify(currentPackage.kdp_metadata, null, 2);
+            const blob = new Blob([metadata], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `kdp_metadata_${currentPackage.keyword.replace(/ /g, '_')}.json`;
+            a.click();
+        }
+
+        function downloadComplete() {
+            const complete = JSON.stringify(currentPackage, null, 2);
+            const blob = new Blob([complete], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `book_package_${currentPackage.keyword.replace(/ /g, '_')}.json`;
+            a.click();
+        }
+
+        function copyDescription() {
+            navigator.clipboard.writeText(currentPackage.kdp_metadata.description);
+            alert('Description copied to clipboard!');
+        }
+
+        function copyPrompt() {
+            navigator.clipboard.writeText(currentPackage.ebookwriter_prompt);
+            alert('Prompt copied to clipboard!');
+        }
+
+        function generateAnother() {
+            document.getElementById('results').classList.remove('show');
+            document.querySelector('.card').style.display = 'block';
+            document.getElementById('bookForm').reset();
+        }
+    </script>
+</body>
+
+</html>
